@@ -1,0 +1,21 @@
+name: Auto PR Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            이 PR의 변경 사항을 검토하고 다음을 확인해주세요:
+            1. 코드 품질과 가독성
+            2. 잠재적인 버그나 보안 취약점
+            3. 테스트 커버리지
+            4. CLAUDE.md의 코딩 표준 준수 여부
+            리뷰 결과를 PR 댓글로 남겨주세요.
